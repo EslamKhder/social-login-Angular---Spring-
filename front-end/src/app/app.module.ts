@@ -15,6 +15,13 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent},
   {path: '**', redirectTo: '/home'}
 ];
+
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from 'angularx-social-login';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,9 +33,29 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
-    RouterModule
+    RouterModule,
+    SocialLoginModule
   ],
-  providers: [],
+    providers: [
+      {
+        provide: 'SocialAuthServiceConfig',
+        useValue: {
+          autoLogin: false,
+          providers: [
+            {
+              id: GoogleLoginProvider.PROVIDER_ID,
+              provider: new GoogleLoginProvider(
+                '998943596311-agii5b72rppsj1h1tdp5f75mhnfj22s7.apps.googleusercontent.com'
+              )
+            },
+            {
+              id: FacebookLoginProvider.PROVIDER_ID,
+              provider: new FacebookLoginProvider('1640008832855470')
+            }
+          ]
+        } as SocialAuthServiceConfig,
+      }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
