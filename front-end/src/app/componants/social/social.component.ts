@@ -14,10 +14,21 @@ export class SocialComponent implements OnInit {
   }
 
   signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(
+      data => {
+        console.log(data);
+      }
+    );
   }
 
   signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(
+      data => {
+        console.log(data);
+      }
+    );
+  }
+  signOut(): void {
+    this.authService.signOut();
   }
 }
