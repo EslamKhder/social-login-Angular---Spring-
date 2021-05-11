@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {SocialAuthService} from 'angularx-social-login';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  isLogin: boolean; // false
+  constructor(private authService: SocialAuthService) { }
 
   ngOnInit(): void {
+    this.authService.authState.subscribe(
+      data => {
+        this.isLogin = (data != null);
+      }
+    );
   }
 
 }
