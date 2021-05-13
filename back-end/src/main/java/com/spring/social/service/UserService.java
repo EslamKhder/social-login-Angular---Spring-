@@ -5,10 +5,12 @@ import com.spring.social.model.User;
 import com.spring.social.model.UserPrincaple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
 
@@ -17,10 +19,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserDetails loadByEmail(String email){
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
         UserPrincaple userPrincaple = new UserPrincaple(user);
         return userPrincaple;
-
     }
 }
