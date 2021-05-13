@@ -27,7 +27,7 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/api")
 //http://localhost:8080/api
-public class GoogleController {
+public class SocialController {
 
     @Value("${google.id}")
     private String idClient;
