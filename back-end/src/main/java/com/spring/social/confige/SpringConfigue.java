@@ -1,5 +1,7 @@
 package com.spring.social.confige;
 
+import com.spring.social.confige.jwt.JwtAuthorizationFilter;
+import com.spring.social.dao.UserRepository;
 import com.spring.social.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,14 +19,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SpringConfigue extends WebSecurityConfigurerAdapter {
 
+    private UserRepository userRepository;
     private UserService userService;
 
     @Autowired
-    public SpringConfigue(UserService userService) {
+    public SpringConfigue(UserRepository userRepository, UserService userService) {
+        this.userRepository = userRepository;
         this.userService = userService;
     }
 
-
+    @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
@@ -36,7 +40,10 @@ public class SpringConfigue extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
+            .addFilter(new JwtAuthorizationFilter(authenticationManager(),userRepository))
             .authorizeRequests()
+            .antMatchers("/auth/login")
+            .permitAll()
             .anyRequest()
             .authenticated()
             .and()
