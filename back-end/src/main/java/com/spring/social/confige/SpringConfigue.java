@@ -42,7 +42,6 @@ public class SpringConfigue extends WebSecurityConfigurerAdapter {
             .and()
             .httpBasic();
     }
-
     @Bean
     DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
