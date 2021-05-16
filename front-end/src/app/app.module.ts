@@ -21,6 +21,7 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider
 } from 'angularx-social-login';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {
     RouterModule.forRoot(routes),
     BrowserModule,
     RouterModule,
-    SocialLoginModule
+    SocialLoginModule,
+    HttpClientModule
   ],
     providers: [
       {

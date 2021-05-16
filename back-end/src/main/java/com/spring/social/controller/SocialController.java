@@ -23,10 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.facebook.api.Facebook;
 
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sun.text.resources.sk.CollationData_sk;
 
 import java.io.IOException;
@@ -36,6 +33,7 @@ import java.util.List;
 // http://localhost:8080
 @RestController
 @RequestMapping("/social")
+@CrossOrigin("http://localhost:4200")
 //http://localhost:8080/social
 public class SocialController {
 
@@ -100,7 +98,7 @@ public class SocialController {
         return userService.saveUser(user);
     }
 
-    //http://localhost:8080/api/facebook
+    //http://localhost:8080/social/facebook
     @PostMapping("/facebook")
     public ResponseEntity<LoginResponse> loginWithFacebook(@RequestBody TokenDto tokenDto) throws Exception {
         Facebook facebook = new FacebookTemplate(tokenDto.getToken());
