@@ -47,6 +47,8 @@ public class SocialController {
 
     private PasswordEncoder passwordEncoder;
 
+    private String email;
+
 
     @Value("${google.id}")
     private String idClient;
@@ -73,14 +75,12 @@ public class SocialController {
                         .setAudience(Collections.singleton(idClient));
         GoogleIdToken googleIdToken = GoogleIdToken.parse(ver.getJsonFactory(),tokenDto.getToken());
         GoogleIdToken.Payload payload = googleIdToken.getPayload();
-        String email = payload.getEmail();
+        email = payload.getEmail();
         User user = new User();
         if(userService.ifEmailExist(email)){
             user = userService.getUserByMail(email);
-            System.out.println("Email Is Exist");
         } else {
             user = createUser(email);
-            System.out.println("Email Not Exist");
         }
         ///////////////////////////
         JwtLogin jwtLogin = new JwtLogin();
@@ -102,11 +102,25 @@ public class SocialController {
 
     //http://localhost:8080/api/facebook
     @PostMapping("/facebook")
-    public ResponseEntity<?> loginWithFacebook(@RequestBody TokenDto tokenDto){
+    public ResponseEntity<LoginResponse> loginWithFacebook(@RequestBody TokenDto tokenDto) throws Exception {
         Facebook facebook = new FacebookTemplate(tokenDto.getToken());
-        String [] data = {"email","name","picture"};
-        User user = facebook.fetchObject("me",User.class,data);
-        return new ResponseEntity<>(user,HttpStatus.OK);
+        String [] data = {"email"};
+        org.springframework.social.facebook.api.User user = facebook.fetchObject("me", org.springframework.social.facebook.api.User.class,data);
+
+        email = user.getEmail();
+        User userFace = new User();
+        if(userService.ifEmailExist(email)){
+            userFace = userService.getUserByMail(email);
+        } else {
+            userFace = createUser(email);
+        }
+        ///////////////////////////
+        JwtLogin jwtLogin = new JwtLogin();
+        jwtLogin.setEmail(user.getEmail());
+        jwtLogin.setPassword(password);
+        ///////////////////////////
+
+        return new ResponseEntity<LoginResponse>(tokenService.login(jwtLogin), HttpStatus.OK);
     }
 
 
