@@ -26,4 +26,16 @@ public class UserService implements UserDetailsService {
         UserPrincaple userPrincaple = new UserPrincaple(user);
         return userPrincaple;
     }
+
+    public boolean ifEmailExist(String mail){
+        return userRepository.existsByEmail(mail);
+    }
+
+    public User getUserByMail(String mail){
+        return userRepository.findByEmail(mail);
+    }
+
+    public User saveUser(User user){
+        return userRepository.save(user);
+    }
 }
