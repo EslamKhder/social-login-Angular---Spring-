@@ -12,18 +12,21 @@ export class SocialService {
   constructor(private http: HttpClient) { }
 
   loginWithGoogle(token): Observable<any>{
-    return this.http.post(`${this.baseUrl}google`, {token}).pipe(
+    // @ts-ignore
+    return this.http.post<any>(`${this.baseUrl}google`, {token}).pipe(
       map(
         response => {
+          sessionStorage.setItem('token','Bearer ' + response.token);
           return response;
         }
       )
     );
   }
   loginWithFacebook(token): Observable<any>{
-    return this.http.post(`${this.baseUrl}facebook`, {token}).pipe(
+    return this.http.post<any>(`${this.baseUrl}facebook`, {token}).pipe(
       map(
         response => {
+          sessionStorage.setItem('token',response.token);
           return response;
         }
       )

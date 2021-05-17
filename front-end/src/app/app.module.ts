@@ -9,6 +9,7 @@ import { SocialComponent } from './componants/social/social.component';
 import {RouterModule, Routes} from '@angular/router';
 
 const routes: Routes = [
+  {path: 'students', component: StudentsComponent},
   {path: '', component: HomeComponent},
   {path: 'login', component: SocialComponent},
   {path: 'home', component: HomeComponent},
@@ -22,6 +23,7 @@ import {
   FacebookLoginProvider
 } from 'angularx-social-login';
 import {HttpClientModule} from '@angular/common/http';
+import { StudentsComponent } from './componants/students/students.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import {HttpClientModule} from '@angular/common/http';
     HeaderComponent,
     HomeComponent,
     ProfileComponent,
-    SocialComponent
+    SocialComponent,
+    StudentsComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

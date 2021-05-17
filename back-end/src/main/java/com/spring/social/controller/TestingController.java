@@ -1,6 +1,7 @@
 package com.spring.social.controller;
 
 import com.spring.social.model.Student;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import java.util.List;
 // http://localhost:8080
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("http://localhost:4200")
 // http://localhost:8080/api
 public class TestingController {
 
